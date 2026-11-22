@@ -1,62 +1,49 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuController : MonoBehaviour
+public class MenuPrincipalController : MonoBehaviour
 {
     [Header("Painéis de UI")]
-    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject painelOptions;
+    [SerializeField] private GameObject painelSelecaoFases;
 
-    [Header("Configuração de Transição")]
-    [Tooltip("Nome exato da cena para onde o botão Começar deve ir")]
-    [SerializeField] private string gameplaySceneName = "FasesSelections";
-
-    private void Start()
+    public void ClicarStart()
     {
-        // Garante que a tela de configurações inicie fechada
-        if (settingsPanel != null)
-        {
-            settingsPanel.SetActive(false);
-        }
+        if (painelSelecaoFases != null)
+            painelSelecaoFases.SetActive(true);
     }
 
-    /// <summary>
-    /// Transita para a próxima cena (Fase 0 ou Gameplay)
-    /// </summary>
-    public void PlayGame()
+    public void FecharSelecaoFases()
     {
-        SceneManager.LoadScene(gameplaySceneName);
+        if (painelSelecaoFases != null)
+            painelSelecaoFases.SetActive(false);
     }
 
-    /// <summary>
-    /// Abre o painel em branco de configurações
-    /// </summary>
-    public void OpenSettings()
+    public void ClicarTutorial()
     {
-        if (settingsPanel != null)
-        {
-            settingsPanel.SetActive(true);
-        }
+        if (GameManager.Instance != null)
+            GameManager.Instance.SelecionarTutorial();
+
+        SceneManager.LoadScene("Gameplay");
     }
 
-    /// <summary>
-    /// Fecha o painel de configurações e retorna ao menu principal
-    /// </summary>
-    public void CloseSettings()
+    public void ClicarOptions()
     {
-        if (settingsPanel != null)
-        {
-            settingsPanel.SetActive(false);
-        }
+        if (painelOptions != null)
+            painelOptions.SetActive(true);
     }
 
-    /// <summary>
-    /// Encerra a aplicação
-    /// </summary>
-    public void QuitGame()
+    public void FecharOptions()
     {
-        Debug.Log("[MainMenu] Fechando o jogo...");
-        
-        // Funciona na build final (no Editor da Unity executa apenas o Debug.Log)
+        if (painelOptions != null)
+            painelOptions.SetActive(false);
+    }
+
+    public void ClicarExit()
+    {
         Application.Quit();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 }
