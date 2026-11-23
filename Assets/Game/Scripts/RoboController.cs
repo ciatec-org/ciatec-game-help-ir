@@ -79,7 +79,7 @@ public class RoboController : MonoBehaviour
     // Reposiciona o robô sem punição caso trave ou o jogador peça ajuda
     public void RecuperarPosicao()
     {
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         transform.position = posicaoSeguraAtual;
         transform.rotation = rotacaoSeguraAtual;
     }
