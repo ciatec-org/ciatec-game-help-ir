@@ -1,0 +1,2 @@
+* Coleta de pacotes: ao iniciar a fase, todos os pacotes são adicionados imediatamente no "inventário" do robô. Eles apareceram no canto superior direito da tela, e são marcados com a imagem de uma caixa de entrega <br> <img width="512" height="512" alt="Pacote de entrega" src="https://github.com/user-attachments/assets/05663fab-bfbd-4cae-95bd-291463f3ad75" /> <br> dentro de um container que indique a cor do setor;
+* Gerador de fases através de um arquivo de texto que indique a posição de cada elemento padrão da fase (como os postes, as máquinas, paredes, etc.).
