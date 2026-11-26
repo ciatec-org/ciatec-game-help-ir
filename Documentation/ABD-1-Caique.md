@@ -4,8 +4,8 @@ doc: Plano de trabalho
 doc_extenso: Agile Backlog Document
 titulo: Help-IR
 subtitulo: Plano de trabalho do jogo de iniciação científica do Caique
-versao: v1.0
-mudanca: reescrito no molde do Caça às Cores (26/11/2026)
+versao: v1.1
+mudanca: o gerador de fases por arquivo de texto no Core e o visual da caixa no HUD, ideias do Caique (26/11/2026); v1.0 reescrito no molde do Caça às Cores
 data: 26/11/2026
 projeto_vinculado: Help-IR
 organizacao: CIATec
@@ -65,13 +65,13 @@ Ficam fora do backlog, por decisão do orientador (26/11/2026): a burocracia (co
 
 # 2 TAMANHO
 
-**O plano tem 7 épicos, 25 histórias e 70 tasks a fazer, somando 136 horas**, mais 19 tasks já feitas pelo código da `fase0`. **O plano conta em horas, e não em pontos**, e as horas são previsão (LA-08): o Caique as corrige ao puxar cada task. Os milestones não têm data.
+**O plano tem 7 épicos, 25 histórias e 72 tasks a fazer, somando 140 horas**, mais 19 tasks já feitas pelo código da `fase0`. **O plano conta em horas, e não em pontos**, e as horas são previsão (LA-08): o Caique as corrige ao puxar cada task. Os milestones não têm data.
 
 | Épico | Milestone | Histórias | Tasks a fazer | Já existem | Horas |
 | --- | --- | --- | --- | --- | --- |
 | EP-01 · O projeto e o menu | Core | 2 | 3 | 3 | 6 h |
 | EP-02 · O robô, as placas e a entrega | Core | 4 | 10 | 9 | 19 h |
-| EP-03 · As fases e as perturbações | Core | 3 | 10 | 2 | 20 h |
+| EP-03 · As fases e as perturbações | Core | 3 | 12 | 2 | 24 h |
 | EP-04 · Fim, pausa e registro da sessão | Core | 5 | 13 | 3 | 26 h |
 | EP-05 · O tutorial da Fase 0 | Expansão | 2 | 7 | 1 | 14 h |
 | EP-06 · O mediador, os perfis e os ajustes sensoriais | Expansão | 4 | 11 | 1 | 21 h |
@@ -79,7 +79,7 @@ Ficam fora do backlog, por decisão do orientador (26/11/2026): a burocracia (co
 
 | Milestone | Histórias | Tasks a fazer | Já existem | Horas | O que se vê |
 | --- | --- | --- | --- | --- | --- |
-| Core | 14 | 36 | 17 | 71 h | A build de PC, do menu ao fim das Fases 1 a 5, com a seta-guia, as perturbações e o arquivo de cada sessão (US-04.5) |
+| Core | 14 | 38 | 17 | 75 h | A build de PC, do menu ao fim das Fases 1 a 5, com a seta-guia, as perturbações e o arquivo de cada sessão (US-04.5) |
 | Expansão | 11 | 34 | 2 | 65 h | A sessão conduzida pelo mediador, com a Fase 0, os perfis, a arte e o áudio finais e as métricas (US-07.5) |
 
 # 3 ÉPICOS
@@ -278,7 +278,7 @@ O coração do jogo: o robô anda e gira vendo à frente, segue as placas da cor
 | T-02.3.1 | Tirar do `CicloEntregaManager` (:49-58) para uma classe em C# puro a regra da entrega que já existe (a cor da caixa da vez é a do setor; o contador sobe; o setor errado não muda nada), com teste EditMode; e o teste PlayMode do ciclo que já existe: encostar no pacote dá a caixa ao robô vazio, com caixa não dá outra, a entrega sobe o contador e o pacote reaparece na cor seguinte | 2 h · gameplay |
 | T-02.3.2 | `BrilhoDeEntrega`: acende e apaga a emissão na cor do setor numa curva suave, sem piscar, nos renderers do campo `renderers`; a caixa vai ao ponto de depósito do setor (campo `deposito` do `SetorEntrega`) numa interpolação curta; pôr o brilho nos prefabs do robô e do setor e marcar o depósito no prefab do setor | 2 h · presentation |
 | T-02.3.3 | Na entrega, tocar o clipe do campo `somAcerto` e disparar o gatilho Confirmar do campo `animadorDoRobo`; fazer o SFX provisório, curto e ascendente, e a animação curta de confirmação no Animator do robô, e ligá-los | 1 h · arte |
-| T-02.3.4 | `HudDaFase`, empurrado pelo gerente de entregas (o HUD não lê estado), com os campos `iconeCaixa`, `areaContador`, `prefabCaixinha` e `botaoPausa`: a caixa que o robô leva num canto e uma caixinha por entrega, em fileiras de 10, no oposto; montar o Canvas do HUD na Gameplay, com a caixinha provisória; teste PlayMode: a entrega acrescenta uma caixinha, e a 11ª abre a segunda fileira | 2 h · presentation |
+| T-02.3.4 | `HudDaFase`, empurrado pelo gerente de entregas (o HUD não lê estado), com os campos `iconeCaixa`, `areaContador`, `prefabCaixinha` e `botaoPausa`: a caixa que o robô leva no canto superior direito, como o ícone de uma caixa de entrega dentro de um quadro na cor e com o símbolo do setor dela (ideia do Caique, `Documentation/ideias-expansao.md`), e uma caixinha por entrega, em fileiras de 10, no oposto; montar o Canvas do HUD na Gameplay, com a caixinha provisória; teste PlayMode: a entrega acrescenta uma caixinha, e a 11ª abre a segunda fileira | 2 h · presentation |
 | T-02.3.5 | No setor errado, onde a caixa já fica com o robô (CicloEntregaManager.cs:75-79), tocar o clipe do campo `somImpedimento` no lugar do `Debug.Log` (o baque grave provisório, 110 Hz) e avisar o `HudDaFase`, que pulsa o ícone da caixa numa escala suave, pelo `Agentes.Relogio`, sem mudar a cor; teste PlayMode: o contador não muda, e o ícone pulsa uma vez por tentativa | 2 h · presentation |
 | T-02.3.6 | O robô leva uma caixa por vez: o `PacoteColetavel` só a entrega ao robô vazio (PacoteColetavel.cs:10), e ela aparece no robô (`PacoteCarregadoVisual`, campo `pacoteCarregadoVisual` do `CicloEntregaManager`, :7, :37-41); depois da entrega, o pacote reaparece alternando azul e verde (:66-73) | já existe · gameplay |
 | T-02.3.7 | O `SetorEntrega` chama a entrega quando o robô entra com caixa (SetorEntrega.cs:7-13), e o `CicloEntregaManager` confere a cor e sobe o `entregasConcluidas` (:49-58) | já existe · gameplay |
@@ -312,7 +312,7 @@ O coração do jogo: o robô anda e gira vendo à frente, segue as placas da cor
 
 **Milestone:** Core
 
-As Fases 1 a 5 como dados e cenas montadas à mão, com as placas escondidas (fumaça, sujeira, quebrada, manutenção) e os corredores bloqueados (obra, reforma, multidão), que entram depois do começo limpo.
+As Fases 1 a 5 como dados e como mapas escritos à mão em arquivos de texto, que o jogo transforma na fábrica, com as placas escondidas (fumaça, sujeira, quebrada, manutenção) e os corredores bloqueados (obra, reforma, multidão), que entram depois do começo limpo.
 
 **Por que importa:** As perturbações são o que mede a recuperação de pista e a flexibilidade cognitiva.
 
@@ -324,31 +324,34 @@ As Fases 1 a 5 como dados e cenas montadas à mão, com as placas escondidas (fu
 
 ## 4.3.1 US-03.1 — Jogar as Fases 1 a 3, cada uma na sua fábrica
 
-**Perfil:** Pesquisador · **Horas:** 4 · **Prioridade:** P1 · **Milestone:** Core · **Issue:** #3
+**Perfil:** Pesquisador · **Horas:** 8 · **Prioridade:** P1 · **Milestone:** Core · **Issue:** #3
 
 **Depende de:** US-02.2, US-02.3
 
-*Como pesquisador, quero que cada fase seja um dado com os valores do SGDD e tenha a sua fábrica fixa, montada na cena dela, para que a dificuldade suba na ordem do protocolo e a mesma fase seja igual para todas as crianças.*
+*Como pesquisador, quero que cada fase seja um dado com os valores do SGDD e tenha a sua fábrica fixa, escrita num arquivo de texto que o jogo transforma na fábrica, para que a dificuldade suba na ordem do protocolo e a mesma fase seja igual para todas as crianças.*
 
 **Requisitos do SGDD que ela realiza:**
 
 - `RT-13` — Recepção de parâmetros de fase (velocidade, fumaça, bloqueios) via servidor `research.ciatec.org` *(no Core, os parâmetros vêm do dado da fase; o servidor está em `ABD-1-Caique-api.md`)*
 - §11.1, §5.3 — o mapa da cena tem de 6 a 24 intersecções, e o número delas define o tamanho da fábrica
-- LAC-12, LG-Cai-09, LG-Cai-10 — o mapa de cada fase é o da cena dela, montado à mão, com desvios paralelos, igual em toda partida
+- LAC-12, LG-Cai-09, LG-Cai-10 — o mapa de cada fase é o do arquivo de texto dela, escrito à mão, com desvios paralelos, igual em toda partida (o gerador por arquivo de texto é ideia do aluno, `Documentation/ideias-expansao.md`; orientador, 26/11/2026)
 - §11.3 B.1, REQ-P2-04 — as Fases 1 e 2 têm 3 setores e 5 entregas, a Fase 2 tem fumaça a 50% (conforme a implementação do aluno), e a Fase 3 tem 5 setores e fumaça
 - §4.4, LAC-12 — a fase marcada como treino (só a Fase 0) é a única exceção às faixas de setores e de entregas, com 2 setores e 2 entregas (conforme a implementação do aluno)
 - REQ-P3-02 — a velocidade do robô vem do dado da fase
-- §5.3, LA-12 — as entregas vêm do dado; intersecções, placas e setores vêm da cena da fase
+- §5.3, LA-12 — as entregas vêm do dado; intersecções, placas e setores vêm do arquivo de texto da fase
 
 **Cenários de aceite:**
 
 - Dado as Fases 1, 2 e 3, quando são carregadas em ordem, então setores e fumaça seguem o §11.3.
-- Dado a cena da Fase 1, quando a fase começa, então o grafo do mapa tem as intersecções e os setores da cena.
+- Dado o arquivo de texto da Fase 1, quando a fase começa, então a fábrica gerada tem as paredes, as máquinas, os postes e os setores do arquivo, e o grafo do mapa tem as intersecções e os setores dele.
+- Dado um arquivo com uma linha mais curta ou um caractere fora da legenda, quando a fase começa, então o Console aponta a linha e a coluna do erro, e nada é gerado.
 
 | Task | O que fazer | Horas e camada |
 | --- | --- | --- |
-| T-03.1.1 | Estender o `FaseDataSO`, que já tem velocidade, setores, entregas, fumaça, bloqueios e cena: a entrega que dispara a perturbação, o tempo de visibilidade das placas, a probabilidade de bloqueio e as faixas do §11.1, com a exceção de treino; dar à `Fase_01_Basica` e à `Fase_02_Fumaca` os campos novos, com os valores de hoje, e criar a `Fase_03` com os da LAC-12 (visibilidade de 0 s nas Fases 2 e 3, LG-Cai-12) | 2 h · dados |
-| T-03.1.2 | Montar à mão a cena de cada uma das Fases 1 a 3 (mapa fixo com desvios paralelos, os marcadores do `GrafoDoMapa` e o `PacoteColetavel` no `Marker_Pacote` da doca) e pôr o nome dela no `nomeCenaGameplay` e no Build Settings | 2 h · conteúdo |
+| T-03.1.1 | Estender o `FaseDataSO`, que já tem velocidade, setores, entregas, fumaça, bloqueios e cena: a entrega que dispara a perturbação, o tempo de visibilidade das placas, a probabilidade de bloqueio e as faixas do §11.1, com a exceção de treino; dar à `Fase_01_Basica` e à `Fase_02_Fumaca` os campos novos, com os valores de hoje, e criar a `Fase_03` com os da LAC-12; e o campo `mapa` (TextAsset), o arquivo de texto da fábrica da fase (T-03.1.5) (visibilidade de 0 s nas Fases 2 e 3, LG-Cai-12) | 2 h · dados |
+| T-03.1.5 | `LeitorDeMapa`, em C# puro: lê o arquivo de texto da fase — uma linha por fileira e um caractere por célula de 3 m; linha que começa por `;` é comentário — pela legenda `#` parede, `.` piso, `M` máquina, `+` intersecção com poste, `D` doca, `S` início, `1` a `6` setores (na ordem do `CorSetor`) e `b` trecho bloqueável, e devolve a grade das células; no erro de formato (linha de outro tamanho, caractere fora da legenda, sem `S` ou sem `D`), devolve a linha e a coluna dele; teste EditMode com um mapa pequeno e com cada erro | 2 h · dados |
+| T-03.1.6 | `GeradorDeMapa`, no `Mapa_Fabrica` da Gameplay: antes do `GrafoDoMapa`, lê o `mapa` do dado da fase escolhida pelo `LeitorDeMapa` e instancia, a 3 m por célula, os prefabs de `Assets/Game/Prefabs/Mapa` pelos campos dele: `Tile_Floor` em toda célula andável, `Tile_Wall`, `Tile_Machine`, o `Poste` com o `Marker_Interesecao` no `+`, o `Marker_StartPoint` e o `Marker_RecoveryPoint` no `S`, o `Marker_Pacote` com o `PacoteColetavel` no `D` e o `Marker_SetorEntrega` com a cor do setor; com erro de formato, mostra no Console a linha e a coluna e não gera nada; um item do menu de contexto gera o mapa no Editor, sem Play; teste PlayMode: um mapa de 5×5 gera o número certo de pisos, paredes, postes e setores | 2 h · gameplay |
+| T-03.1.2 | Escrever o arquivo de texto de cada uma das Fases 1 a 3 (`Assets/Game/Fases/Mapas/`; mapa fixo com desvios paralelos e as intersecções da LAC-12), com o `Mapa_Fabrica` de hoje (T-03.1.4) como molde da Fase 1, ligá-lo no campo `mapa` do dado e jogar cada fase; todas usam a cena Gameplay (`nomeCenaGameplay`) | 2 h · conteúdo |
 | T-03.1.3 | O `FaseDataSO` (FaseDataS0.cs:7-26) com número, treino, velocidade, setores, entregas, fumaça, bloqueios e a cena da fase (`nomeCenaGameplay`), e os dados `Fase_01_Basica` (3 setores, 5 entregas, 3 m/s) e `Fase_02_Fumaca` (3 setores, 5 entregas, fumaça a 50%, 3,5 m/s) | já existe · dados |
 | T-03.1.4 | O mapa montado à mão: o `Mapa_Fabrica` da cena Gameplay, com `Tile_Floor`, `Tile_Wall`, `Tile_Machine`, `Poste` e os `Marker_*` | já existe · conteúdo |
 
@@ -407,15 +410,15 @@ As Fases 1 a 5 como dados e cenas montadas à mão, com as placas escondidas (fu
 **Cenários de aceite:**
 
 - Dado um corredor bloqueado por obra, quando o robô chega a ele, então vê o cavalete e desacelera suavemente até parar; com a multidão, vê as silhuetas paradas e desacelera do mesmo jeito.
-- Dado 3 corredores bloqueados, quando o robô procura um setor, então existe rota até ele, pelos desvios paralelos montados à mão.
+- Dado 3 corredores bloqueados, quando o robô procura um setor, então existe rota até ele, pelos desvios paralelos do arquivo da fase.
 - Dado a Fase 4 carregada, então ela tem bloqueio e não tem fumaça; dado a Fase 5, tem os dois.
 
 | Task | O que fazer | Horas e camada |
 | --- | --- | --- |
-| T-03.3.1 | `TrechoBloqueavel`, que marca na cena um trecho que pode ser bloqueado, e o sorteio em C# puro: o obstáculo cai nos trechos sorteados pela semente e pela probabilidade da fase (0,5 por trecho, mínimo 1), até o `quantidadeBloqueios` (FaseDataS0.cs:23), instanciado do campo `prefabBloqueio`; teste com os dados das Fases 4 e 5 montados por código | 2 h · gameplay |
+| T-03.3.1 | `TrechoBloqueavel`, que o `GeradorDeMapa` põe em cada `b` do arquivo da fase, e o sorteio em C# puro: o obstáculo cai nos trechos sorteados pela semente e pela probabilidade da fase (0,5 por trecho, mínimo 1), até o `quantidadeBloqueios` (FaseDataS0.cs:23), instanciado do campo `prefabBloqueio`; teste com os dados das Fases 4 e 5 montados por código | 2 h · gameplay |
 | T-03.3.2 | Desaceleração suave diante do obstáculo, sem atravessá-lo, e o clipe do campo `somObstrucao` do `RoboController`; o som provisório de obstrução, sutil e grave | 2 h · gameplay |
 | T-03.3.3 | O tipo de bloqueio no dado (obra, reforma, multidão) e os campos `prefabObra`, `prefabReforma` e `prefabMultidao` no `TrechoBloqueavel`; os três prefabs provisórios (cavalete; pilha de caixas com um cone; silhuetas paradas e arredondadas, sem rosto nem animação), estáticos e com o mesmo colisor | 2 h · arte |
-| T-03.3.4 | Os dados das Fases 4 e 5, com os valores da LAC-12, a probabilidade de bloqueio 0,5 e a visibilidade de 10 s na Fase 5 (LG-Cai-12); montar à mão a cena de cada uma (desvios paralelos, o `TrechoBloqueavel` nos trechos bloqueáveis e o `PacoteColetavel` na doca), com o nome no `nomeCenaGameplay` e no Build Settings | 2 h · conteúdo |
+| T-03.3.4 | Os dados das Fases 4 e 5, com os valores da LAC-12, a probabilidade de bloqueio 0,5 e a visibilidade de 10 s na Fase 5 (LG-Cai-12); escrever o arquivo de texto de cada uma (desvios paralelos e um `b` em cada trecho bloqueável) e ligá-lo no campo `mapa` do dado | 2 h · conteúdo |
 
 ## 4.4 EP-04 — Fim, pausa e registro da sessão
 
@@ -675,7 +678,7 @@ O painel do mediador (calibrar, liberar fase, interromper com motivo), os preset
 - `RT-18` — Atalho de pausa e botão de interrupção de emergência de sessão pelo terapeuta
 - `RT-19` — Definição e aplicação de critérios explícitos para interrupção de protocolo longitudinal
 - REQ-P3-02 — o painel ajusta a velocidade do robô, o tempo de visibilidade das placas, a densidade da fumaça e a probabilidade de bloqueio, e o valor salvo vale na fase seguinte
-- §2.3, §5.3, LG-Cai-08, LA-12 — o painel escolhe o participante e o perfil (padrão Suporte 1) e ajusta as entregas; intersecções, placas e setores vêm da cena montada à mão
+- §2.3, §5.3, LG-Cai-08, LA-12 — o painel escolhe o participante e o perfil (padrão Suporte 1) e ajusta as entregas; intersecções, placas e setores vêm do arquivo de texto de cada fase
 - LG-Cai-07, §11.2 — o painel libera uma fase para o participante, também uma anterior (sinais de frustração)
 - §11.1 — o painel recusa valores fora das faixas
 - REQ-P3-02, LG-Cai-03 — a velocidade vem da configuração local quando ela existe, e do dado da fase quando não; um valor fora de 0,5 a 2 vezes a velocidade padrão é recusado, e vale o da fase
@@ -1014,7 +1017,7 @@ LAC-01 a LAC-06 são as linhas da §13 do SGDD, na ordem dela; LAC-07 em diante 
 | LAC-09 | A e D giram o robô ou a câmera? Papel do mouse | §2.2, §4.1, §7.1 | **Decidida pelo orientador em 26/11/2026 (LG-Cai-14; o giro é contínuo, conforme a implementação do aluno, v0.8):** A e D giram o robô, e a câmera gira junto, presa a ele; o mouse serve só aos menus. A sensibilidade fica, conforme a implementação do aluno (v0.8): o painel de opções escolhe o esquema de controle (teclado, mouse ou toque) e a sensibilidade de cada um, de 0,2× a 3× (padrão 1×), que multiplica o giro de 110°/s | O §4.1 é a seção da mecânica; com a câmera presa, o §7.1 também se cumpre; o §10.2 Motor não dá papel ao mouse | US-01.2, US-02.1 |
 | LAC-10 | Câmera egocêntrica ou 3ª pessoa | §4.1, §10.3 | **Decidida pelo orientador em 26/11/2026 (LG-Cai-14):** 3ª pessoa baixa, logo atrás e acima do robô, com campo de visão de 60° na vertical (cerca de 91° na horizontal em 16:9), conforme a implementação do aluno (v0.8) | O §4.2 A põe brilho e animação no robô, que precisa aparecer; o §10.3-2 admite a 3ª pessoa | US-02.1 |
 | LAC-11 | Quantos pacotes o robô carrega | §5.1, §10.3 | **Decidida pelo orientador em 26/11/2026 (LG-Cai-11):** Uma caixa por vez na v1: o robô coleta uma caixa na doca, na ordem do dado, entrega e volta à doca para a seguinte, até o total de entregas da fase; o HUD mostra a caixa que ele leva. **Na v0.9 o código do aluno fica como está:** o robô vazio pega o pacote encostando, e o pacote seguinte reaparece alternando azul e verde (CicloEntregaManager.cs:66-73); a ordem do dado não se implementa | Um alvo por vez é mais fácil de entender (LG-Cai-02) e mantém a medida de hesitação limpa | US-02.3 |
-| LAC-12 | Conteúdo das fases, mapa fixo ou gerado, variantes da Fase 0 | §5.2, §11.1, §11.3 | **Decidida pelo orientador em 26/11/2026 (LG-Cai-10, LG-Cai-12, LG-Cai-15):** Mapa fixo por fase, montado à mão na cena da fase (conforme a implementação do aluno, v0.8), semente só nas perturbações. Fase 0: 6 intersecções, 2 setores, 2 entregas (exceção de treino das faixas; conforme a implementação do aluno, v0.8), uma etapa para o movimento, a entrega e cada um dos sete obstáculos. Fase 1: 6 intersecções, 3 setores, 5 entregas. Fase 2: 10, 3 setores, 5 entregas, fumaça a 50% (as entregas das Fases 1 e 2 e os setores e a fumaça da Fase 2, conforme a implementação do aluno, v0.8). Fase 3: 12, 5 setores, 15 entregas, ocultação 50–100% em até 1/3 das placas. Fase 4: 14, 5 setores, 20 entregas, 1 a 2 bloqueios. Fase 5: 18, 6 setores, 20 entregas, ocultação e até 3 bloqueios. A Fase 1 não tem perturbação; nas Fases 2 a 5, a perturbação entra depois da 3ª entrega; os 5 setores chegam na Fase 3. Fase 0 rápida, guiada e estendida como na US-06.2 | Sobe uma dimensão por fase (REQ-P2-04, §11.3 B.1), dentro das faixas do §11.1; mapa fixo preserva a reprodutibilidade (sugestões §2.3) | US-02.2 e US-03.1, US-03.3, US-03.2, US-05.1, US-06.2 |
+| LAC-12 | Conteúdo das fases, mapa fixo ou gerado, variantes da Fase 0 | §5.2, §11.1, §11.3 | **Decidida pelo orientador em 26/11/2026 (LG-Cai-10, LG-Cai-12, LG-Cai-15):** Mapa fixo por fase, montado à mão (conforme a implementação do aluno, v0.8) e, desde a v1.1, escrito num arquivo de texto que o jogo transforma na fábrica (ideia do aluno; orientador, 26/11/2026), semente só nas perturbações. Fase 0: 6 intersecções, 2 setores, 2 entregas (exceção de treino das faixas; conforme a implementação do aluno, v0.8), uma etapa para o movimento, a entrega e cada um dos sete obstáculos. Fase 1: 6 intersecções, 3 setores, 5 entregas. Fase 2: 10, 3 setores, 5 entregas, fumaça a 50% (as entregas das Fases 1 e 2 e os setores e a fumaça da Fase 2, conforme a implementação do aluno, v0.8). Fase 3: 12, 5 setores, 15 entregas, ocultação 50–100% em até 1/3 das placas. Fase 4: 14, 5 setores, 20 entregas, 1 a 2 bloqueios. Fase 5: 18, 6 setores, 20 entregas, ocultação e até 3 bloqueios. A Fase 1 não tem perturbação; nas Fases 2 a 5, a perturbação entra depois da 3ª entrega; os 5 setores chegam na Fase 3. Fase 0 rápida, guiada e estendida como na US-06.2 | Sobe uma dimensão por fase (REQ-P2-04, §11.3 B.1), dentro das faixas do §11.1; mapa fixo preserva a reprodutibilidade (sugestões §2.3) | US-02.2 e US-03.1, US-03.3, US-03.2, US-05.1, US-06.2 |
 | LAC-13 | Quem mostra os biomarcadores ao terapeuta | §4.2 E, §9.3, §10.3 | **Fora do jogo (v0.9, orientador, 26/11/2026):** o resumo e o relatório para o terapeuta são do backend (LAC-15), com as métricas que o jogo calcula (US-07.4); a antiga US-07.6 foi cortada. A proposta anterior: o jogo mostra o resumo no painel do mediador, fora da vista da criança, e o exporta | O §10.3 não tem tela de resultados para a criança; o terapeuta precisa ver mesmo sem servidor | nenhuma (antiga US-07.6 cortada) |
 | LAC-14 | Forma de integração com a plataforma e contrato | §7.4, §12; roteiro 17, 39–43 | **Decisão do orientador (25/11/2026), não provisória:** neste backlog, telemetria e registro só em arquivo local, em formato documentado; sem cliente de API, servidor nem mock de servidor. A forma de integração e o contrato estão em `ABD-1-Caique-api.md` | O orientador mandou o arquivo local primeiro | US-04.4 |
 | LAC-15 | Painel de calibração, ajuste e relatório são do servidor | §4.2 D, §9.3; `ciatec-paradigma.md` | O servidor é da equipe do `research.ciatec.org`; o jogo tem painel do mediador com os mesmos parâmetros, gravados em arquivo local, regra local de ajuste e resumo exportado em arquivo | O terapeuta calibra e vê o resumo sem servidor, como pede a decisão de 25/11/2026 | US-06.1, antiga US-07.6; validação com o servidor (API) |
@@ -1093,10 +1096,10 @@ LA-01 a LA-10 surgiram ao dividir as tasks e ao aplicar as decisões LG-Cai; o o
   `RecuperarPosicao` (RoboController.cs:72-85), que reposicionam o robô "caso trave ou o jogador peça ajuda", e há o
   prefab `Marker_RecoveryPoint`; nada os chama, e o SGDD não fala em reposicionar o robô. Na v0.9 o código fica como
   está (decisão do orientador, 26/11/2026): os métodos e o prefab ficam, e nenhuma task os liga.
-- **LA-12 — Parâmetros do mapa com o mapa à mão (decidida pelo código, v0.9).** Com o mapa montado à mão na cena da fase (conforme a implementação do aluno),
-  intersecções, placas e setores vêm da cena, e o `quantidadeSetores` do `FaseDataSO` (FaseDataS0.cs:15) ninguém lê.
+- **LA-12 — Parâmetros do mapa com o mapa à mão (decidida pelo código, v0.9).** Com o mapa montado à mão (conforme a implementação do aluno; desde a v1.1, no arquivo de texto da fase),
+  intersecções, placas e setores vêm do mapa, e o `quantidadeSetores` do `FaseDataSO` (FaseDataS0.cs:15) ninguém lê.
   O §5.3 e o REQ-P3-02 pedem que o mediador ajuste intersecções, placas e setores (US-06.1). Na v0.9 fica
-  decidida pelo código (orientador, 26/11/2026): intersecções, placas e setores vêm da cena montada à mão de cada fase, o
+  decidida pelo código (orientador, 26/11/2026): intersecções, placas e setores vêm do mapa de cada fase, o
   painel do mediador não os ajusta, e o `quantidadeSetores` fica como está. A US-06.1 ajusta os outros parâmetros.
 - **LA-13 — Seletor de fases e progressão (decidida pelo código, v0.9).** O seletor de fases fica no menu da criança, conforme a implementação do aluno
   ([Jogar], o `ClicarStart`, abre o carrossel do `LevelSliderController`, e tocar o card central abre a fase), e hoje
